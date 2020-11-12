@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:qrreaderapp/src/models/scan_model.dart';
 import 'package:qrreaderapp/src/pages/direcciones_page.dart';
 import 'package:qrreaderapp/src/pages/mapas_page.dart';
 
-import 'package:qrcode_reader/qrcode_reader.dart';
+import 'package:barcode_scan/barcode_scan.dart';
+import 'package:qrreaderapp/src/providers/db_provider.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -35,15 +37,21 @@ class _HomePageState extends State<HomePage> {
   }
 
   _scanQR() async {
-    String futureString = '';
+    // https://fernando-herrera.com
+    // geo:40.724233047051705,-74.00731459101564
+
+    String futureString = 'https://marketingconweb.com';
+/*
     try {
-      futureString = await new QRCodeReader().scan();
+      futureString = await BarcodeScanner.scan().toString();
     } catch (e) {
       futureString = e.toString();
     }
-    print('futureString: $futureString');
+*/
     if (futureString != null) {
-      print('Tenemos info');
+      final scan = ScanModel(valor: futureString);
+      // Llamamos a la BD
+      DBProvider.db.nuevoScan(scan);
     }
   }
 
